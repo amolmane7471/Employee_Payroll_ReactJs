@@ -1,9 +1,18 @@
-import './App.css';
+import React from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import PayrollForm from './components/payroll-form/PayrollForm'
+
 
 function App() {
   return (
-    <div className="App">
-       <h1> Hello World</h1>  
+    <div >
+      <header className='App'/>
+      <Router>
+        <Switch>
+          <Route path="/register"><PayrollForm /></Route>
+        </Switch>
+      </Router>
+      
     </div>
   );
 }

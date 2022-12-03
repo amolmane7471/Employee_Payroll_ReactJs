@@ -6,8 +6,10 @@ import profile7 from '../../assets/images/Ellipse -7.png'
 import profile8 from '../../assets/images/Ellipse -8.png'
 import logo from '../../assets/images/logo.png'
 
+
 class PayrollForm extends React.Component {
 
+    allDepartment = ["HR", "Sales", "Finance", "Engineer", "Others"];
 
     constructor(props){
         super(props);
@@ -26,6 +28,61 @@ class PayrollForm extends React.Component {
         }
     }
 
+    onSubmit = (event) => {
+        event.preventDefault();
+        let empObject = {
+            name : this.state.name,
+            profilePic : this.state.profilePic,
+            gender : this.state.gender,
+            departments : this.state.departments,
+            salary : this.state.salary,
+            startDate : `${this.state.day} ${this.state.month} ${this.state.year}`,
+            note : this.state.notes,            
+        } 
+        console.log("data is",empObject)
+
+    }
+
+    onValueChange = (event) => {
+        
+        this.setState({
+            [event.target.name] : event.target.value 
+        });
+        this.setState({
+            "startDate":`${this.state.day} ${this.state.month} ${this.state.year}`,
+        });
+        console.log('value for', [event.target.name] , event.target.value);
+        
+    }
+
+    onCheckboxChange = (event) =>{
+        let deptArray = [...this.state.departments]
+        if(event.target.checked){
+            deptArray.push(event.target.value);
+        }else{
+            let index = deptArray.indexOf(event.target.value);
+            deptArray.splice(index,1);
+        }
+        console.log("departments : "+ deptArray);
+        this.setState({
+            departments : deptArray,
+        })
+    }
+
+    onReset = (event) => {
+        this.setState({
+            name:"",
+            profilePic:"",
+            gender:"",
+            departments: [],
+            salary: "400000",
+            startDate: "",
+            notes: "",
+            day:"",
+            month:"",
+            year:"",
+        })
+    }
   
     render() {
         return (
@@ -46,7 +103,8 @@ class PayrollForm extends React.Component {
                 </header>
             
                 <div className="form-content">
-                    <form className="form" action="" onsubmit={this.onSubmit} onreset={this.onReset}>
+                  
+                <form className="form" action="" onSubmit={this.onSubmit} onReset={this.onReset}>
 
                         <div className="form-head">
                             Employee Payroll Form

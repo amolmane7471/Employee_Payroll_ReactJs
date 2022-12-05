@@ -4,8 +4,7 @@ import profile1 from '../../assets/images/Ellipse -1.png'
 import profile3 from '../../assets/images/Ellipse -3.png'
 import profile7 from '../../assets/images/Ellipse -7.png'
 import profile8 from '../../assets/images/Ellipse -8.png'
-import logo from '../../assets/images/logo.png'
-
+import EmployeeService from '../../service/EmployeeService';
 
 class PayrollForm extends React.Component {
 
@@ -18,7 +17,7 @@ class PayrollForm extends React.Component {
             name:"",
             profilePic:"",
             gender:"",
-            departments: [],
+            department: [],
             salary: "400000",
             startDate: "",
             notes: "",
@@ -28,23 +27,38 @@ class PayrollForm extends React.Component {
         }
     }
 
+    
     onSubmit = (event) => {
         event.preventDefault();
         let empObject = {
             name : this.state.name,
             profilePic : this.state.profilePic,
             gender : this.state.gender,
-            departments : this.state.departments,
+            department : this.state.department,
             salary : this.state.salary,
             startDate : `${this.state.day} ${this.state.month} ${this.state.year}`,
-            note : this.state.notes,            
+            note : this.state.notes            
         } 
+       
         console.log("data is",empObject)
+        EmployeeService.addEmployee(empObject)
 
     }
 
     onValueChange = (event) => {
-        
+        const nameRegex = RegExp("^[A-Z]{1}[a-zA-Z\\s]{2,}$");
+        if( event.target.name === "name"){
+            if(nameRegex.test(event.target.value)){
+                this.setState({
+                    nameError:''
+                })    
+            }else{
+                this.setState({
+                    nameError:"Invalid Name"
+                })
+            }
+        }
+
         this.setState({
             [event.target.name] : event.target.value 
         });
@@ -56,16 +70,16 @@ class PayrollForm extends React.Component {
     }
 
     onCheckboxChange = (event) =>{
-        let deptArray = [...this.state.departments]
+        let deptArray = [...this.state.department]
         if(event.target.checked){
             deptArray.push(event.target.value);
         }else{
             let index = deptArray.indexOf(event.target.value);
             deptArray.splice(index,1);
         }
-        console.log("departments : "+ deptArray);
+        
         this.setState({
-            departments : deptArray,
+            department : deptArray
         })
     }
 
@@ -74,13 +88,13 @@ class PayrollForm extends React.Component {
             name:"",
             profilePic:"",
             gender:"",
-            departments: [],
+            department: [],
             salary: "400000",
             startDate: "",
             notes: "",
             day:"",
             month:"",
-            year:"",
+            year:""
         })
     }
   
@@ -88,20 +102,7 @@ class PayrollForm extends React.Component {
         return (
             
             <div>   
-                 
-                <header className="header-content header">
-                    <div className="logo-content">
-                        <img src={logo} alt="" />
-                        <div>
-                            <span className="emp-text">
-                                EMPLOYEE
-                            </span>
-                            <br />
-                            <span className="emp-text emp-payroll">PAYROLL</span>
-                        </div>
-                    </div>
-                </header>
-            
+                             
                 <div className="form-content">
                   
                 <form className="form" action="" onSubmit={this.onSubmit} onReset={this.onReset}>
@@ -113,13 +114,14 @@ class PayrollForm extends React.Component {
                         <div className="row-content">
                             <label className="label text" htmlFor="name"> Name : </label>
                             <input className="input" onChange={this.onValueChange} type="text" name="name" id="name" placeholder="Your name." required />
+                            <output className='error-output'> {this.state.nameError} </output>
                         </div>
 
                         <div className="row-content">
                             <label htmlFor="profile" className="label text">Profile image</label>
                             <div className="profile-radio-content">
                                 <label>
-                                    <input type="radio" onChange={this.onValueChange} name="profile" id="profile1" value="../../assets/images/Ellipse -3.png" required />
+                                    <input type="radio"  onChange={this.onValueChange} name="profile" id="profile1" value="../../assets/images/Ellipse -3.png" required />
                                     <img src={profile3} className="profile" alt="" />
                                 </label>
                                 <label>
@@ -208,18 +210,18 @@ class PayrollForm extends React.Component {
                                 </select>
                                 <select name="month" id="month" >
                                     <option>Month</option>
-                                    <option value="0">January</option>
-                                    <option value="01">February</option>
-                                    <option value="02">March</option>
-                                    <option value="03">April</option>
-                                    <option value="04">May</option>
-                                    <option value="05">June</option>
-                                    <option value="06">July</option>
-                                    <option value="07">August</option>
-                                    <option value="08">September</option>
-                                    <option value="09">October</option>
-                                    <option value="10">November</option>
-                                    <option value="11">December</option>
+                                    <option value="Jan">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
                                 </select>
                                 <select name="year" id="year" >
                                     <option>Year</option>

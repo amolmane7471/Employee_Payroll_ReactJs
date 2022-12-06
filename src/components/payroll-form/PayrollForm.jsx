@@ -23,11 +23,10 @@ class PayrollForm extends React.Component {
             notes: "",
             day:"",
             month:"",
-            year:"",
+            year:""
         }
     }
 
-    
     onSubmit = (event) => {
         event.preventDefault();
         let empObject = {
@@ -37,12 +36,24 @@ class PayrollForm extends React.Component {
             department : this.state.department,
             salary : this.state.salary,
             startDate : `${this.state.day} ${this.state.month} ${this.state.year}`,
-            note : this.state.notes            
+            note : this.state.notes,            
         } 
-       
-        console.log("data is",empObject)
-        EmployeeService.addEmployee(empObject)
+        
+        console.log("Employee object "+ empObject)
+        
+        EmployeeService.addEmployee(empObject).then( data =>{
 
+            console.log("Data Added successfully!");
+
+            alert('Employee '+ this.state.name +' added successfully!!!')
+
+        }).catch(() =>{
+            console.log("Data Can't be added!");
+
+            alert(' Error!! Please Enter Valid Data ')
+        })
+        
+       
     }
 
     onValueChange = (event) => {
@@ -54,11 +65,11 @@ class PayrollForm extends React.Component {
                 })    
             }else{
                 this.setState({
-                    nameError:"Invalid Name"
+                    nameError:"Invalid name"
                 })
             }
         }
-
+        
         this.setState({
             [event.target.name] : event.target.value 
         });
@@ -77,9 +88,9 @@ class PayrollForm extends React.Component {
             let index = deptArray.indexOf(event.target.value);
             deptArray.splice(index,1);
         }
-        
+     
         this.setState({
-            department : deptArray
+            department : deptArray,
         })
     }
 
@@ -97,7 +108,7 @@ class PayrollForm extends React.Component {
             year:""
         })
     }
-  
+
     render() {
         return (
             
@@ -121,19 +132,19 @@ class PayrollForm extends React.Component {
                             <label htmlFor="profile" className="label text">Profile image</label>
                             <div className="profile-radio-content">
                                 <label>
-                                    <input type="radio"  onChange={this.onValueChange} name="profile" id="profile1" value="../../assets/images/Ellipse -3.png" required />
+                                    <input type="radio"  onChange={this.onValueChange} name="profilePic" id="profile1" value="../../assets/images/Ellipse -3.png" required />
                                     <img src={profile3} className="profile" alt="" />
                                 </label>
                                 <label>
-                                    <input type="radio" onChange={this.onValueChange} name="profile" id="profile2" value="../../assets/images/Ellipse -1.png" required />
+                                    <input type="radio" onChange={this.onValueChange} name="profilePic" id="profile2" value="../../assets/images/Ellipse -1.png" required />
                                     <img src={profile1} className="profile" alt="" />
                                 </label>
                                 <label>
-                                    <input type="radio" onChange={this.onValueChange} name="profile" id="profile3" value="../../assets/images/Ellipse -8.png" required />
+                                    <input type="radio" onChange={this.onValueChange} name="profilePic" id="profile3" value="../../assets/images/Ellipse -8.png" required />
                                     <img src={profile8} className="profile" alt="" />
                                 </label>
                                 <label>
-                                    <input type="radio" onChange={this.onValueChange} name="profile" id="profile4" value="../../assets/images/Ellipse -7.png" required />
+                                    <input type="radio" onChange={this.onValueChange} name="profilePic" id="profile4" value="../../assets/images/Ellipse -7.png" required />
                                     <img src={profile7} className="profile" alt="" />
                                 </label>
                             </div>
@@ -167,7 +178,7 @@ class PayrollForm extends React.Component {
 
                         <div className="row-content">
                             <label htmlFor="salary" className="label text">Choose your salary: </label>
-                            <input type="range" onChange={this.onValueChange} name="salary" id="salary" className="input" min="300000" max="500000" value={this.state.salary} defaultValue="400000"/>
+                            <input type="range" onChange={this.onValueChange} name="salary" id="salary" className="input" min="300000" max="500000" value={this.state.salary} />
                             <output className="salary-output text" htmlFor="salary" id="salaryOutput">{this.state.salary}</output>
                         </div>
 
@@ -211,17 +222,17 @@ class PayrollForm extends React.Component {
                                 <select name="month" id="month" >
                                     <option>Month</option>
                                     <option value="Jan">January</option>
-                                    <option value="02">February</option>
-                                    <option value="03">March</option>
-                                    <option value="04">April</option>
-                                    <option value="05">May</option>
-                                    <option value="06">June</option>
-                                    <option value="07">July</option>
-                                    <option value="08">August</option>
-                                    <option value="09">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
+                                    <option value="Feb">February</option>
+                                    <option value="Mar">March</option>
+                                    <option value="Apr">April</option>
+                                    <option value="May">May</option>
+                                    <option value="Jun">June</option>
+                                    <option value="Jul">July</option>
+                                    <option value="Aug">August</option>
+                                    <option value="Sep">September</option>
+                                    <option value="Oct">October</option>
+                                    <option value="Nov">November</option>
+                                    <option value="Dec">December</option>
                                 </select>
                                 <select name="year" id="year" >
                                     <option>Year</option>

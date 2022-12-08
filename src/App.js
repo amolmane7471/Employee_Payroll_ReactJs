@@ -10,8 +10,8 @@ function App() {
       <Header/>
       <Router>
         <Switch>
-          <Route path="/register"><PayrollForm/></Route>
-          <Route path="/"><Home /></Route>
+        <Route path="/register" component={PayrollForm}></Route>
+          <Route path="/" component={Home}></Route>
         </Switch>
       </Router>
       

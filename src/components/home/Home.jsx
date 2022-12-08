@@ -14,7 +14,14 @@ class Home extends React.Component {
             employeeList: []
         }
     }
-
+/**
+ * The reload() method reloads the current document
+ */
+    deleteEmployee = (employeeId) => {
+        EmployeeService.deleteEmployee(employeeId);
+        window.location.reload();
+    }
+    
     updateEmployee = (employeeId) => {
         console.log("update id : "+ employeeId);
         this.props.history.push('register/',{employeeId})
